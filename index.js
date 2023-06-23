@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require("cors");
 const app = express()
 const tripRouter = require("./routes/trip.js")
+const userRouter = require("./routes/user.js")
 const mongoose = require('mongoose')
 
 
@@ -22,6 +23,7 @@ mongoose
 
 
 app.use(tripRouter)
+app.use(userRouter)
 app.listen(process.env.PORT, () => {
     console.log(`Server is running.`)
   })

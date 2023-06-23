@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 module.exports.SIGN_UP = async (req, res) => {
+  console.log("New User is trying to register")
   const user = await userModel.findOne({ email: req.body.email });
 
   if (user) {
@@ -14,7 +15,7 @@ module.exports.SIGN_UP = async (req, res) => {
   const name = req.body.name;
   const formatedName = name[0].toUpperCase() + name.slice(1);
   const password = req.body.password;
-  const photo = req.photo.password;
+
 
 
   function checkIfPasswordGood(password) {
@@ -59,7 +60,6 @@ module.exports.SIGN_UP = async (req, res) => {
       name: formatedName,
       email: email,
       password: hash,
-      phoyo: photo,
       booked_trips: [],
 
     });

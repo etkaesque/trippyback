@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     if (err) {
       return res.status(401).json({ response: "Auth middleware failed" });
     } else {
-      req.body.userId = decoded.userId;
+      req.body.id = decoded.id;
       return next();
     }
   });
