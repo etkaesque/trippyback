@@ -140,3 +140,43 @@ module.exports.ADD_TRIP_TO_USER = async (req, res) => {
       res.status(500).json({ error: "Failed to book a Trip." });
     }
   };
+
+
+module.exports.REMOVE_USER_TRIP = async (req,res) => {
+
+
+    console.log("remove trip request")
+    const userID = req.body.id;
+    const tripID = req.params.id;
+  
+    try {
+      const user = await userModel.findOne({ id: userID });
+      if (!user) {
+        console.log("user not found")
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      console.log("user found")
+  
+      const trip = await tripModel.findOne({ id: tripID });
+      if (!trip) {
+        console.log("trip not found")
+        return res.status(404).json({ error: "Trip not found." });
+      }
+
+      console.log("trip was found")
+
+      await userModel.updateOne(
+        { id: userID },
+        { $pull: { booked_trips: tripID } }
+      );
+
+      res.status(200).json({ message: "Trip removed successfully." });
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to remove the trip." });
+    }
+
+
+}

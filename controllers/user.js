@@ -168,8 +168,9 @@ module.exports.GET_JWT_TOKEN = async (req, res) => {
 };
 
 module.exports.GET_USER_BY_ID = async (req, res) => {
+  console.log("get user request")
   try {
-    const user = await userModel.findOne({ id: req.params.id });
+    const user = await userModel.findOne({ id: req.body.id });
     if (!user) {
       return res.status(404).json({ response: "User was not found" });
     }
@@ -181,7 +182,7 @@ module.exports.GET_USER_BY_ID = async (req, res) => {
 
 module.exports.GET_USER_WITH_TRIPS = async (req, res) => {
   try {
-    const aggregatedUsers = await userModel
+    const userWithTrips = await userModel
       .aggregate([
         {
           $lookup: {
@@ -191,11 +192,11 @@ module.exports.GET_USER_WITH_TRIPS = async (req, res) => {
             as: "user_trips",
           },
         }, 
-        { $match: { id: req.body.userId }}
+        { $match: { id: req.body.id }}
       ])
       .exec();
 
-    res.status(200).json({ users: aggregatedUsers });
+    res.status(200).json({ userWithTrips });
   } catch {
     res.status(400).json({ response: "Something went wrong while getting users with trips! :(" });
   }
