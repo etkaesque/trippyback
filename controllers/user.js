@@ -15,6 +15,11 @@ module.exports.SIGN_UP = async (req, res) => {
   const name = req.body.name;
   const formatedName = name[0].toUpperCase() + name.slice(1);
   const password = req.body.password;
+  const confirm_password = req.body.confirm_password;
+
+  if(password != confirm_password) {
+    return res.status(401).json({ response: "Password doesn't match." });
+  }
 
 
 
